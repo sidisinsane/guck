@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports a dependency snapshot for the specified package manager.
-# usage: guck project dependency-snapshot <npm> [--dev|--all]
+# usage: guck project dependency-snapshot <npm|go> [--dev|--all]
 # exits:
 #   0: success
 #   1: failed to source a required helper or unsupported package manager
