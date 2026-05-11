@@ -3,7 +3,7 @@
 # description: >
 #   Detects runtimes, language variants, versions, and package managers
 #   by probing marker files in CWD and subdirectories.
-# usage: source _detect-environments.sh && detect_environments [dir]
+# usage: source _info-environments.sh && info_environments [dir]
 # requires: bash 4+
 # populates:
 #   detected_environments: array of "runtime|language|version|installed|manager|manager_installed|path" entries
@@ -289,7 +289,7 @@ _probe_dir() {
   done
 }
 
-detect_environments() {
+info_environments() {
   detected_environments=()
   local base="${1:-.}"
 

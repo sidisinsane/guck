@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Detects the VCS in use and reports repository state.
-# usage: source _detect-vcs.sh && detect_vcs [dir]
+# usage: source _info-vcs.sh && info_vcs [dir]
 # populates:
 #   detected_vcs: associative array of VCS metadata
 # exits:
@@ -11,7 +11,7 @@
 
 declare -A detected_vcs
 
-detect_vcs() {
+info_vcs() {
   detected_vcs=()
   local base="${1:-.}"
 
