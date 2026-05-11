@@ -35,7 +35,8 @@ fi
 # Clone or update repo
 if [[ -d "$GUCK_DIR/.git" ]]; then
   echo "Updating guck in $GUCK_DIR..."
-  git -C "$GUCK_DIR" pull --ff-only
+  git -C "$GUCK_DIR" fetch --all
+  git -C "$GUCK_DIR" reset --hard origin/main
 else
   echo "Installing guck to $GUCK_DIR..."
   git clone "https://github.com/${GITHUB_USER}/${GITHUB_REPO}.git" "$GUCK_DIR"

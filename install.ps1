@@ -16,7 +16,8 @@ $BinDir     = "$env:USERPROFILE\.local\bin"
 # Clone or update repo
 if (Test-Path "$GuckDir\.git") {
   Write-Host "Updating guck in $GuckDir..."
-  git -C $GuckDir pull --ff-only
+  git -C $GuckDir fetch --all
+  git -C $GuckDir reset --hard origin/main
 } else {
   Write-Host "Installing guck to $GuckDir..."
   git clone "https://github.com/$GithubUser/$GithubRepo.git" $GuckDir
