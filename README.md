@@ -39,7 +39,8 @@ cd guck
 Once installed, scripts are invoked via the `guck` dispatcher:
 
 ```bash
-guck project                      # snapshot of the current project
+guck project info                 # snapshot of the current project
+guck project info /path/to/dir    # snapshot of a specific directory
 guck git status                   # git repository status
 guck git changelog                # commits since last tag
 guck env system                   # OS, architecture, and shell
@@ -49,7 +50,7 @@ guck env build-tools go nodejs    # filtered by runtime
 
 | Script | Description |
 |---|---|
-| [`scripts/project/project.sh`] | Reports a structured snapshot of the current project. |
+| [`scripts/project/info.sh`] | Reports a structured snapshot of the current project. |
 | [`scripts/git/status.sh`] | Reports the current git repository status. |
 | [`scripts/git/changelog.sh`] | Reports commits since the last tag as a TSV index. |
 | [`scripts/env/system.sh`] | Reports OS, architecture, and shell of the current system. |
@@ -61,7 +62,7 @@ guck env build-tools go nodejs    # filtered by runtime
 
 ### Examples
 
-**`guck project`**
+**`guck project info`**
 
 ```yaml
 environments:
@@ -112,16 +113,16 @@ The result is a compact index the agent uses to discover and invoke the right
 script without reading documentation:
 
 ```tsv
-name              path                              description
-build-tools       ./scripts/env/build-tools.sh      Reports installed build tools, optionally filtered by runtime group.
-changelog         ./scripts/git/changelog.sh        Reports commits since the last tag as a TSV index.
-container-tools   ./scripts/env/container-tools.sh  Reports installed container and orchestration tools and their versions.
-data-tools        ./scripts/env/data-tools.sh       Reports installed data processing tools and their versions.
-network-tools     ./scripts/env/network-tools.sh    Reports installed network tools and their versions.
-project           ./scripts/project/project.sh      Reports a structured snapshot of the current project.
-status            ./scripts/git/status.sh           Reports the current git repository status.
-system            ./scripts/env/system.sh           Reports OS, architecture, and shell of the current system.
-vcs-tools         ./scripts/env/vcs-tools.sh        Reports installed version control tools and their versions.
+name                  path                              description
+build-tools           ./scripts/env/build-tools.sh      Reports installed build tools, optionally filtered by runtime group.
+changelog             ./scripts/git/changelog.sh        Reports commits since the last tag as a TSV index.
+container-tools       ./scripts/env/container-tools.sh  Reports installed container and orchestration tools and their versions.
+data-tools            ./scripts/env/data-tools.sh       Reports installed data processing tools and their versions.
+info                  ./scripts/project/info.sh         Reports a structured snapshot of the current project.
+network-tools         ./scripts/env/network-tools.sh    Reports installed network tools and their versions.
+status                ./scripts/git/status.sh           Reports the current git repository status.
+system                ./scripts/env/system.sh           Reports OS, architecture, and shell of the current system.
+vcs-tools             ./scripts/env/vcs-tools.sh        Reports installed version control tools and their versions.
 ```
 
 ---

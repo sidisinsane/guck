@@ -5,6 +5,7 @@
 1. Place the script in the appropriate category directory under `scripts/`.
    If no suitable category exists, create one.
 2. Set the executable bit before committing:
+
    ```bash
    git add scripts/category/script.sh
    git update-index --chmod=+x scripts/category/script.sh
@@ -16,27 +17,33 @@
 ### Structure
 
 - Scripts are grouped by category under `scripts/`.
-- An orchestrator script is named after its parent directory (e.g.
-  `scripts/project/project.sh`). It sources helper scripts and composes
-  their output.
-- Helper scripts are prefixed with `_detect-` and are sourced by the
-  orchestrator, not invoked directly (e.g. `scripts/project/_detect-vcs.sh`).
+- A category may contain multiple orchestrators, each named after its endpoint
+  (e.g. `scripts/project/info.sh`, `scripts/project/dependency-snapshot.sh`).
+  An orchestrator sources its own helpers and composes their output.
+- Helper scripts are prefixed with the orchestrator name and an underscore
+  (e.g. `_info-vcs.sh`, `_dependency-snapshot-npm.sh`). They are sourced by
+  their orchestrator, not invoked directly.
+- Helpers shared by multiple orchestrators are prefixed with `_shared-`
+  (e.g. `_shared-utils.sh`).
 - Standalone scripts are self-contained and invoked directly or via the `guck`
   dispatcher (e.g. `scripts/git/status.sh`, `scripts/env/system.sh`).
 
 ### Naming
 
-- Orchestrators: `<category>.sh`
-- Helpers: `_detect-<name>.sh`
+- Orchestrators: `<endpoint>.sh`
+- Helpers: `_<endpoint>-<descriptor>.sh`
+- Shared helpers: `_shared-<descriptor>.sh`
 - Standalones: `<name>.sh`
-- Functions: `detect_<name>` mirroring the filename (hyphens become underscores)
+- Functions: `<endpoint>_<descriptor>` mirroring the filename (hyphens become underscores)
 
 ### Detection hierarchy
 
 When detecting versions or tools, prefer sources in this order:
 
-1. **Pinned** — project-specific version files (`.python-version`, `.node-version`, `rust-toolchain.toml`)
-2. **Declared** — manifest constraints (`go.mod`, `pyproject.toml`, `package.json` engines)
+1. **Pinned** — project-specific version files (`.python-version`,
+   `.node-version`, `rust-toolchain.toml`)
+2. **Declared** — manifest constraints (`go.mod`, `pyproject.toml`,
+   `package.json` engines)
 3. **Installed** — binary query (`go version`, `node --version`)
 4. **Manager** — version manager dotfiles (`.tool-versions`, `.nvmrc`)
 
@@ -67,7 +74,7 @@ Example:
 #!/usr/bin/env bash
 # ---
 # description: Detects the VCS in use and reports repository state.
-# usage: source _detect-vcs.sh && detect_vcs [dir]
+# usage: source _info-vcs.sh && info_vcs [dir]
 # populates:
 #   detected_vcs: associative array of VCS metadata
 # exits:
