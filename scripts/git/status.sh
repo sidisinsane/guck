@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports the current git repository status.
-# usage: status.sh
+# usage: guck git status
 # exits:
 #   0: success
 #   1: not a git repository

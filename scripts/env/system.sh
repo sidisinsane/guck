@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports OS, architecture, and shell of the current system.
-# usage: system.sh
+# usage: guck env system
 # exits:
 #   0: success
 #   1: unsupported OS or architecture

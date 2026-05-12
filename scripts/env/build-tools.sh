@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports installed build tools, optionally filtered by runtime group.
-# usage: build-tools.sh [runtime...]
+# usage: guck env build-tools [runtime...]
 # exits:
 #   0: success
 #   1: no build tools detected
@@ -93,13 +93,11 @@ fi
 
 IFS=$'\n' sorted=($(sort <<< "${detected[*]}")); unset IFS
 
+printf 'name\truntime\tinstalled\n'
 for entry in "${sorted[@]}"; do
   tool="${entry%%|*}"
   rest="${entry#*|}"
   group="${rest%%|*}"
   ver="${rest#*|}"
-
-  echo "- name: ${tool}"
-  echo "  runtime: ${group}"
-  echo "  installed: ${ver}"
+  printf '%s\t%s\t%s\n' "$tool" "$group" "$ver"
 done

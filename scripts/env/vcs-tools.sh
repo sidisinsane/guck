@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports installed version control tools and their versions.
-# usage: vcs-tools.sh
+# usage: guck env vcs-tools
 # exits:
 #   0: success
 #   1: no VCS tools detected
@@ -35,9 +35,9 @@ fi
 
 IFS=$'\n' sorted=($(sort <<< "${detected[*]}")); unset IFS
 
+printf 'name\tinstalled\n'
 for entry in "${sorted[@]}"; do
   tool="${entry%%|*}"
   ver="${entry#*|}"
-  echo "- name: ${tool}"
-  echo "  installed: ${ver}"
+  printf '%s\t%s\n' "$tool" "$ver"
 done

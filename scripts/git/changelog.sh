@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ---
 # description: Reports commits since the last tag as a TSV index.
-# usage: changelog.sh
+# usage: guck git changelog
 # exits:
 #   0: success
 #   1: not a git repository or no commits found

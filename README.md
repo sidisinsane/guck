@@ -49,7 +49,7 @@ Scripts are invoked via the `guck` dispatcher as `guck <category> <endpoint>`.
 | `guck git changelog` | Reports commits since the last tag as a TSV index. |
 | `guck git status` | Reports the current git repository status. |
 | `guck project dependency-snapshot <manager> [--dev\|--all]` | Reports a dependency snapshot for the specified package manager. |
-| `guck project info [dir]` | Reports a structured snapshot of the current project. |
+| `guck project info` | Reports a structured snapshot of the current project. |
 | `guck project stats` | Reports file counts and line counts, sorted by relevance. |
 
 ### Examples
