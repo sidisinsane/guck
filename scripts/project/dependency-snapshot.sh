@@ -14,7 +14,8 @@ CATEGORY="$(basename "$SCRIPT_DIR")"
 ENDPOINT="$(basename "${BASH_SOURCE[0]}" .sh)"
 
 if [[ $# -eq 0 ]]; then
-  echo "usage: guck ${CATEGORY} ${ENDPOINT} <manager> [--dev|--all]" >&2
+  echo "error: missing package manager" >&2
+  echo "usage: guck ${CATEGORY} ${ENDPOINT} <$(ls "${SCRIPT_DIR}"/_${ENDPOINT}-*.sh 2>/dev/null | sed "s|.*_${ENDPOINT}-||;s|\.sh$||" | tr '\n' '|' | sed 's/|$//')> [--dev|--all]" >&2
   exit 1
 fi
 
@@ -24,7 +25,8 @@ shift
 helper="${SCRIPT_DIR}/_${ENDPOINT}-${manager}.sh"
 
 if [[ ! -f "$helper" ]]; then
-  echo "error: unsupported package manager: ${manager}" >&2
+  echo "error: unsupported package manager \"${manager}\"" >&2
+  echo "usage: guck ${CATEGORY} ${ENDPOINT} <$(ls "${SCRIPT_DIR}"/_${ENDPOINT}-*.sh 2>/dev/null | sed "s|.*_${ENDPOINT}-||;s|\.sh$||" | tr '\n' '|' | sed 's/|$//')> [--dev|--all]" >&2
   exit 1
 fi
 
