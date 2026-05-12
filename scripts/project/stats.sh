@@ -103,10 +103,11 @@ if [[ -n "$dominant_ext" && -n "${entry_points[$dominant_ext]}" ]]; then
 fi
 
 # =============================================================================
-# Step 4 — score and sort files
+# Step 4 — score files into tiers
 # Tier 1: manifests
 # Tier 2: entry points
-# Tier 3: everything else, sorted by depth then line count descending
+# Tier 3: everything else
+# All tiers sorted by depth asc, then line count desc
 # =============================================================================
 tier1=()
 tier2=()
@@ -118,35 +119,24 @@ for path in "${!file_lines[@]}"; do
   lines="${file_lines[$path]}"
 
   if [[ -n "${manifests[$filename]}" ]]; then
-    tier1+=("$path")
+    tier1+=("${depth}|${lines}|${path}")
   elif [[ -n "${entry_point_set[$filename]}" ]]; then
-    tier2+=("$path")
+    tier2+=("${depth}|${lines}|${path}")
   else
     tier3+=("${depth}|${lines}|${path}")
   fi
 done
 
-# Sort tier3 by depth asc, then lines desc
-IFS=$'\n' sorted3=($(
-  for entry in "${tier3[@]}"; do
-    echo "$entry"
-  done | sort -t'|' -k1,1n -k2,2rn
-)); unset IFS
+IFS=$'\n' sorted1=($(printf '%s\n' "${tier1[@]}" | sort -t'|' -k1,1n -k2,2rn)); unset IFS
+IFS=$'\n' sorted2=($(printf '%s\n' "${tier2[@]}" | sort -t'|' -k1,1n -k2,2rn)); unset IFS
+IFS=$'\n' sorted3=($(printf '%s\n' "${tier3[@]}" | sort -t'|' -k1,1n -k2,2rn)); unset IFS
 
 # =============================================================================
 # Output
 # =============================================================================
 printf 'path\tlines\n'
 
-for path in "${tier1[@]}"; do
-  printf '%s\t%s\n' "$path" "${file_lines[$path]}"
-done
-
-for path in "${tier2[@]}"; do
-  printf '%s\t%s\n' "$path" "${file_lines[$path]}"
-done
-
-for entry in "${sorted3[@]}"; do
+for entry in "${sorted1[@]}" "${sorted2[@]}" "${sorted3[@]}"; do
   path="${entry#*|}"
   path="${path#*|}"
   printf '%s\t%s\n' "$path" "${file_lines[$path]}"
