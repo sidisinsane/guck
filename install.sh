@@ -53,6 +53,24 @@ mkdir -p "$BIN_DIR"
 ln -sf "$GUCK_DIR/guck.sh" "$BIN_DIR/guck"
 echo "Symlinked guck to $BIN_DIR/guck"
 
+# Install shell completion
+case "$SHELL" in
+  */zsh)
+    if ! grep -q "guck.zsh" "$SHELL_CONFIG" 2>/dev/null; then
+      echo "" >> "$SHELL_CONFIG"
+      echo "# guck completion" >> "$SHELL_CONFIG"
+      echo "source \"$GUCK_DIR/completions/guck.zsh\"" >> "$SHELL_CONFIG"
+    fi
+    ;;
+  */bash)
+    if ! grep -q "guck.bash" "$SHELL_CONFIG" 2>/dev/null; then
+      echo "" >> "$SHELL_CONFIG"
+      echo "# guck completion" >> "$SHELL_CONFIG"
+      echo "source \"$GUCK_DIR/completions/guck.bash\"" >> "$SHELL_CONFIG"
+    fi
+    ;;
+esac
+
 # Add GUCK_DIR and PATH to shell config
 if ! grep -q "GUCK_DIR" "$SHELL_CONFIG" 2>/dev/null; then
   echo "" >> "$SHELL_CONFIG"
